@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://MainGamePlay/GamePlay.gd" type="Script" id=1]
+[ext_resource path="res://OtherScenes/EnemyOrb.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/backgrounds/space_bg.jpg" type="Texture" id=3]
+[ext_resource path="res://OtherScenes/Earth.tscn" type="PackedScene" id=4]
+[ext_resource path="res://OtherScenes/EarthProtector.tscn" type="PackedScene" id=5]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 1.06842, -1.10824, 0, 0, 0, 0, 1915.1, 0.561943, 0, 0, 0, 0, 1912.4, 1070.79, 0, 0, 0, 0, 1.3913, 1070.79, 0, 0, 0, 0, 5.28729, -2.5742, 0, 0, 0, 0, 1.06842, -1.10824 )
+}
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
+Enemy = ExtResource( 2 )
+
+[node name="BgTextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+texture = ExtResource( 3 )
+
+[node name="Earth" parent="." instance=ExtResource( 4 )]
+position = Vector2( 951.628, 533.717 )
+
+[node name="EarthProtector" parent="." instance=ExtResource( 5 )]
+
+[node name="EnemyPath" type="Path2D" parent="."]
+curve = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="EnemyPathFollow" type="PathFollow2D" parent="EnemyPath"]
+position = Vector2( 1.06842, -1.10824 )
+rotation = 0.000872623
+
+[node name="EnemyFrequencyTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+[connection signal="timeout" from="EnemyFrequencyTimer" to="." method="_on_EnemyFrequencyTimer_timeout"]
